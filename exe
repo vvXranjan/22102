@@ -1,0 +1,2084 @@
+Hi Champion,
+
+Altair is hiring Data Science Interns to develop Training materials and Knowledge base for Altair products as per requirement (domain-specific), updating existing training material (Training Videos, tutorials, etc.) to share learning and enable other students to be able to use the tools.
+
+Eligibility: Engineering Students "//1.1 iterative
+
+#include <iostream>
+
+#include <vector>
+
+using namespace std;
+
+
+int binarySearchIterative(vector<int>& arr, int target) {
+
+int low = 0;
+
+int high = arr.size() - 1;
+
+
+while (low <= high) {
+
+int mid = low + (high - low) / 2;
+
+
+// Check if target is present at mid
+
+if (arr[mid] == target)
+
+return mid;
+
+
+// If target greater, ignore left half
+
+if (arr[mid] < target)
+
+low = mid + 1;
+
+
+// If target is smaller, ignore right half
+
+else
+
+high = mid - 1;
+
+}
+
+
+// If target is not present in the array
+
+return -1;
+
+}
+
+
+int main() {
+
+vector<int> arr = {2, 3, 4, 10, 40};
+
+int target = 10;
+
+
+int result = binarySearchIterative(arr, target);
+
+cout << "Time complexity of Binary Search (Iterative): O(log n)" << endl;
+
+if (result != -1)
+
+cout << "Element found at index " << result << endl;
+
+else
+
+cout << "Element not found in the array" << endl;
+
+
+return 0;
+
+}
+
+
+
+
+//1.1 recursive
+
+#include <iostream>
+
+#include <vector>
+
+
+int binarySearchRecursive(const std::vector<int>& arr, int target, int left, int right) {
+
+if (left <= right) {
+
+int mid = left + (right - left) / 2;
+
+
+if (arr[mid] == target) {
+
+return mid;
+
+}
+
+if (arr[mid] > target) {
+
+return binarySearchRecursive(arr, target, left, mid - 1);
+
+}
+
+
+return binarySearchRecursive(arr, target, mid + 1, right);
+
+}
+
+
+return -1;
+
+}
+
+
+int main() {
+
+std::vector<int> arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+
+int target = 5;
+
+
+int result = binarySearchRecursive(arr, target, 0, arr.size() - 1);
+
+std::cout << "Time complexity of Binary Search (Recursive): O(log n)" << std::endl;
+
+if (result != -1) {
+
+std::cout << "Element found at index: " << result << std::endl;
+
+} else {
+
+std::cout << "Element not found in the array." << std::endl;
+
+}
+
+
+return 0;
+
+}
+
+
+
+//1.2 merge sort
+
+#include <iostream>
+
+using namespace std;
+
+void merge(int arr[], int l, int m, int r) {
+
+int n1 = m - l + 1, n2 = r - m;
+
+int L[n1], R[n2];
+
+for (int i = 0; i < n1; i++)
+
+L[i] = arr[l + i];
+
+for (int j = 0; j < n2; j++)
+
+R[j] = arr[m + 1 + j];
+
+for (int i = 0, j = 0, k = l; k <= r; ++k) {
+
+if (i == n1 || (j < n2 && R[j] < L[i]))
+
+arr[k] = R[j++];
+
+else
+
+arr[k] = L[i++];
+
+}
+
+}
+
+
+
+void mergeSort(int arr[], int l, int r) {
+
+if (l < r) {
+
+int m = l + (r - l) / 2;
+
+mergeSort(arr, l, m);
+
+mergeSort(arr, m + 1, r);
+
+merge(arr, l, m, r);
+
+}
+
+}
+
+
+void printArray(int arr[], int size) {
+
+for (int i = 0; i < size; i++)
+
+cout << arr[i] << " ";
+
+cout << endl;
+
+}
+
+
+int main() {
+
+int arr[] = {12, 11, 13, 5, 6, 7};
+
+int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+mergeSort(arr, 0, arr_size - 1);
+
+cout << "Time complexity of Merge Sort: O(n log n)" << endl;
+
+cout << "Sorted array is: ";
+
+printArray(arr, arr_size);
+
+return 0;
+
+}
+
+
+//1.3 quick sort
+
+#include <iostream>
+
+#include <chrono>
+
+
+using namespace std;
+
+
+int partition(int arr[], int low, int high) {
+
+int pivot = arr[high];
+
+int i = low - 1;
+
+
+for (int j = low; j < high; ++j) {
+
+if (arr[j] <= pivot) {
+
+i++;
+
+swap(arr[i], arr[j]);
+
+}
+
+}
+
+
+swap(arr[i + 1], arr[high]);
+
+return i + 1;
+
+}
+
+
+void quicksort(int arr[], int low, int high) {
+
+if (low < high) {
+
+int pivotIndex = partition(arr, low, high);
+
+
+quicksort(arr, low, pivotIndex - 1);
+
+quicksort(arr, pivotIndex + 1, high);
+
+}
+
+}
+
+
+int main() {
+
+
+int arr[] = {12, 7, 11, 8, 5, 3, 2, 9, 6};
+
+int arr_size = sizeof(arr) / sizeof(arr[0]);
+
+
+auto start_time = chrono::high_resolution_clock::now();
+
+quicksort(arr, 0, arr_size - 1);
+
+auto end_time = chrono::high_resolution_clock::now();
+
+auto duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+cout << "Time complexity of Quick Sort: O(n log n) [Average Case], O(n^2) [Worst Case]" << endl;
+
+
+cout << "Sorted array: ";
+
+for (int i = 0; i < arr_size; ++i) {
+
+cout << arr[i] << " ";
+
+}
+
+
+//cout << "\nTime taken by Quicksort: " << duration.count() << " microseconds" << endl;
+
+
+return 0;
+
+}
+
+/////1.4 Given a sorted array of non-repeated integers A[1...n], n > 1 then check whether there is
+
+an index i for which A[i] = i. Give an algorithm that runs in O(logn) time
+
+
+#include <iostream>
+
+#include <vector>
+
+
+int findIndexEqualToValue(std::vector<int>& arr, int left, int right) {
+
+if (left <= right) {
+
+int mid = left + (right - left) / 2;
+
+if (arr[mid] == mid)
+
+return mid;
+
+else if (arr[mid] > mid)
+
+return findIndexEqualToValue(arr, left, mid - 1);
+
+else
+
+return findIndexEqualToValue(arr, mid + 1, right);
+
+}
+
+return -1;
+
+}
+
+
+int main() {
+
+std::vector<int> arr = {-10, -5, 0, 3, 7, 9, 11, 12, 13}; // Example sorted array
+
+int n = arr.size();
+
+int index = findIndexEqualToValue(arr, 0, n - 1);
+
+if (index != -1)
+
+std::cout << "Index " << index << " is equal to its value." << std::endl;
+
+else
+
+std::cout << "No index found where A[i] = i." << std::endl;
+
+return 0;
+
+}
+
+
+////////////
+
+
+2.1 strassen’s matrix multiplication
+
+#include<iostream>
+
+using namespace std;
+
+int main() {
+
+int z[2][2];
+
+int i, j;
+
+int m1, m2, m3, m4 , m5, m6, m7;
+
+int x[2][2] = {
+
+{15, 34},
+
+{22, 14}
+
+};
+
+int y[2][2] = {
+
+{2, 4},
+
+{2, 3}
+
+};
+
+cout<<"The first matrix is: ";
+
+for(i = 0; i < 2; i++) {
+
+cout<<endl;
+
+for(j = 0; j < 2; j++)
+
+cout<<x[i][j]<<" ";
+
+}
+
+cout<<"\nThe second matrix is: ";
+
+for(i = 0;i < 2; i++){
+
+cout<<endl;
+
+for(j = 0;j < 2; j++)
+
+cout<<y[i][j]<<" ";
+
+}
+
+
+m1 = (x[0][0] + x[1][1]) * (y[0][0] + y[1][1]);
+
+m2 = (x[1][0] + x[1][1]) * y[0][0];
+
+m3 = x[0][0] * (y[0][1] - y[1][1]);
+
+m4 = x[1][1] * (y[1][0] - y[0][0]);
+
+m5 = (x[0][0] + x[0][1]) * y[1][1];
+
+m6 = (x[1][0] - x[0][0]) * (y[0][0]+y[0][1]);
+
+m7 = (x[0][1] - x[1][1]) * (y[1][0]+y[1][1]);
+
+
+z[0][0] = m1 + m4- m5 + m7;
+
+z[0][1] = m3 + m5;
+
+z[1][0] = m2 + m4;
+
+z[1][1] = m1 - m2 + m3 + m6;
+
+
+cout<<"\nProduct achieved using Strassen's algorithm: ";
+
+for(i = 0; i < 2 ; i++) {
+
+cout<<endl;
+
+for(j = 0; j < 2; j++)
+
+cout<<z[i][j]<<" ";
+
+}
+
+return 0;
+
+}
+
+
+//3.1 Given an array of n elements. Find whether there are two elements in the array such that
+
+their sum is equal to given element K or not? in O(nlogn) time.
+
+
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+
+using namespace std;
+
+
+bool has_sum(vector<int>& arr, int K) {
+
+sort(arr.begin(), arr.end());
+
+
+int left = 0;
+
+int right = arr.size() - 1;
+
+
+while (left < right) {
+
+int current_sum = arr[left] + arr[right];
+
+if (current_sum == K)
+
+return true;
+
+else if (current_sum < K)
+
+left++;
+
+else
+
+right--;
+
+}
+
+
+return false;
+
+}
+
+
+int main() {
+
+vector<int> arr = {3, 7, 2, 9, 5, 8};
+
+int K = 10;
+
+
+if (has_sum(arr, K))
+
+cout << "There exist two elements whose sum is " << K << "." << endl;
+
+else
+
+cout << "No such two elements found." << endl;
+
+
+return 0;
+
+}
+
+
+//3.2 Given an array of n elements. Find whether there are three elements in the array such
+
+that their sum is equal to given element K or not? in O(n
+
+2
+
+) time.
+
+//3.2
+
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+int compare(const void *a, const void *b) {
+
+return (*(int *)a - *(int *)b);
+
+}
+
+int hasTripletWithSum(int arr[], int n, int K) {
+
+qsort(arr, n, sizeof(int), compare); // Step 1: Sort the array in O(nlogn) time
+
+
+// Step 2: Iterate through each element of the array
+
+for (int i = 0; i < n - 2; i++) {
+
+int left = i + 1;
+
+int right = n - 1;
+
+
+// Step 4: In the inner loop, while left is less than right
+
+while (left < right) {
+
+int currentSum = arr[i] + arr[left] + arr[right]; // Calculate the sum
+
+
+if (currentSum == K) { // If sum is equal to K, return true
+
+return 1;
+
+} else if (currentSum < K) { // If sum is less than K, increment left
+
+left++;
+
+} else { // If sum is greater than K, decrement right
+
+right--;
+
+}
+
+}
+
+}
+
+
+// Step 5: If no such triplet is found, return false
+
+return 0;
+
+}
+
+
+// Example usage
+
+int main() {
+
+int arr[] = {1, 4, 6, 8, 9};
+
+int n = sizeof(arr) / sizeof(arr[0]);
+
+int K = 21;
+
+
+if (hasTripletWithSum(arr, n, K)) {
+
+printf("There exist three elements with sum equal to %d\n", K);
+
+} else {
+
+printf("No such triplet exists with sum equal to %d\n", K);
+
+}
+
+
+return 0;
+
+}
+
+//3.3 Let A and B be two arrays of n elements. Given a number K, draw an O(nlogn) time
+
+algorithm for determining whether there exists a ∈ A, b ∈ B such that a+b = K or not?.
+
+//3.3
+
+
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+
+using namespace std;
+
+
+bool binary_search(vector<int>& arr, int target) {
+
+int left = 0;
+
+int right = arr.size() - 1;
+
+
+while (left <= right) {
+
+int mid = left + (right - left) / 2;
+
+if (arr[mid] == target)
+
+return true;
+
+else if (arr[mid] < target)
+
+left = mid + 1;
+
+else
+
+right = mid - 1;
+
+}
+
+
+return false;
+
+}
+
+
+bool has_sum(vector<int>& A, vector<int>& B, int K) {
+
+sort(B.begin(), B.end());
+
+
+for (int i = 0; i < A.size(); ++i) {
+
+int required = K - A[i];
+
+if (binary_search(B, required))
+
+return true;
+
+}
+
+
+return false;
+
+}
+
+
+int main() {
+
+vector<int> A = {1, 4, 7, 9, 11};
+
+vector<int> B = {3, 6, 8, 10, 12};
+
+int K = 13;
+
+
+if (has_sum(A, B, K))
+
+cout << "There exist a and b such that a + b = " << K << endl;
+
+else
+
+cout << "No such a and b found." << endl;
+
+
+return 0;
+
+}
+
+
+3.4 Given an array of n elements, give an algorithm for checking whether there are any
+
+duplicate elements in the array or not? in O(nlogn) time.
+
+//3.4
+
+
+#include <iostream>
+
+#include <vector>
+
+
+int findIndexEqualToValue(const std::vector<int>& arr) {
+
+int left = 0;
+
+int right = arr.size() - 1;
+
+
+while (left <= right) {
+
+int mid = left + (right - left) / 2;
+
+
+if (arr[mid] == mid) {
+
+// A[mid] = mid, found the index
+
+return mid;
+
+} else if (arr[mid] > mid) {
+
+// A[mid] > mid, search on the left side
+
+right = mid - 1;
+
+} else {
+
+// A[mid] < mid, search on the right side
+
+left = mid + 1;
+
+}
+
+}
+
+
+// No index found
+
+return -1;
+
+}
+
+
+int main() {
+
+std::vector<int> arr1 = {-10, -5, 1, 3, 7, 9, 12, 17}; // Example 1
+
+std::vector<int> arr2 = {0, 2, 5, 8, 10, 14, 18}; // Example 2
+
+
+int result1 = findIndexEqualToValue(arr1);
+
+int result2 = findIndexEqualToValue(arr2);
+
+
+std::cout << "Example 1: Index i such that A[i] = i is " << result1 << std::endl;
+
+std::cout << "Example 2: Index i such that A[i] = i is " << result2 << std::endl;
+
+
+return 0;
+
+}
+
+
+3.5 Given an array of n elements, give an algorithm for finding the element which appears
+
+maximum number of times in the array in O(nlogn) time.
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+int compare(const void *a, const void *b) {
+
+return (*(int *)a - *(int *)b);
+
+}
+
+
+int findMaxOccurringElement(int arr[], int n) {
+
+qsort(arr, n, sizeof(int), compare);
+
+
+int maxElement = arr[0];
+
+int maxCount = 1;
+
+int currentElement = arr[0];
+
+int currentCount = 1;
+
+
+for (int i = 1; i < n; i++) {
+
+if (arr[i] == arr[i - 1]) {
+
+currentCount++;
+
+} else {
+
+if (currentCount > maxCount) {
+
+maxElement = currentElement;
+
+maxCount = currentCount;
+
+}
+
+currentElement = arr[i];
+
+currentCount = 1;
+
+}
+
+}
+
+
+if (currentCount > maxCount) {
+
+maxElement = currentElement;
+
+maxCount = currentCount;
+
+}
+
+
+return maxElement;
+
+}
+
+
+// Example usage
+
+int main() {
+
+int arr[] = {3, 2, 5, 4, 2, 5, 6, 2, 5, 2};
+
+int n = sizeof(arr) / sizeof(arr[0]);
+
+
+int maxOccurringElement = findMaxOccurringElement(arr, n);
+
+printf("Element with maximum occurrences: %d\n", maxOccurringElement);
+
+
+return 0;
+
+}
+
+//////////////
+
+//Knapsack problem 4.1
+
+#include<stdio.h>
+
+
+int main()
+
+{
+
+float weight[50],profit[50],ratio[50],Totalvalue,temp,capacity,amount;
+
+int n,i,j;
+
+printf("Enter the number of items :");
+
+scanf("%d",&n);
+
+for (i = 0; i < n; i++)
+
+{
+
+printf("Enter Weight and Profit for item[%d] :\n",i);
+
+scanf("%f %f", &weight[i], &profit[i]);
+
+}
+
+printf("Enter the capacity of knapsack :\n");
+
+scanf("%f",&capacity);
+
+
+for(i=0;i<n;i++)
+
+ratio[i]=profit[i]/weight[i];
+
+
+for (i = 0; i < n; i++)
+
+for (j = i + 1; j < n; j++)
+
+if (ratio[i] < ratio[j])
+
+{
+
+temp = ratio[j];
+
+ratio[j] = ratio[i];
+
+ratio[i] = temp;
+
+
+temp = weight[j];
+
+weight[j] = weight[i];
+
+weight[i] = temp;
+
+
+temp = profit[j];
+
+profit[j] = profit[i];
+
+profit[i] = temp;
+
+}
+
+
+printf("Knapsack problems using Greedy Algorithm:\n");
+
+for (i = 0; i < n; i++)
+
+{
+
+if (weight[i] > capacity)
+
+break;
+
+else
+
+{
+
+Totalvalue = Totalvalue + profit[i];
+
+capacity = capacity - weight[i];
+
+}
+
+}
+
+if (i < n)
+
+Totalvalue = Totalvalue + (ratio[i]*capacity);
+
+printf("\nThe maximum value is :%f\n",Totalvalue);
+
+return 0;
+
+}
+
+//////////
+
+4.2 jobs sequence
+
+#include <stdio.h>
+
+#include <stdlib.h>
+
+
+struct Job {
+
+char id;
+
+int deadline;
+
+int profit;
+
+};
+
+
+int compare(const void* a, const void* b) {
+
+return ((struct Job*)b)->profit - ((struct Job*)a)->profit;
+
+}
+
+
+int findMaxDeadline(struct Job jobs[], int n) {
+
+int max_deadline = 0;
+
+for (int i = 0; i < n; i++) {
+
+if (jobs[i].deadline > max_deadline)
+
+max_deadline = jobs[i].deadline;
+
+}
+
+return max_deadline;
+
+}
+
+
+void jobSequencing(struct Job jobs[], int n) {
+
+qsort(jobs, n, sizeof(struct Job), compare);
+
+int max_deadline = findMaxDeadline(jobs, n);
+
+char result[max_deadline];
+
+for (int i = 0; i < max_deadline; i++)
+
+result[i] = ' ';
+
+for (int i = 0; i < n; i++) {
+
+for (int j = jobs[i].deadline - 1; j >= 0; j--) {
+
+if (result[j] == ' ') {
+
+result[j] = jobs[i].id;
+
+break;
+
+}
+
+}
+
+}
+
+printf("Scheduled jobs: ");
+
+for (int i = 0; i < max_deadline; i++) {
+
+if (result[i] != ' ')
+
+printf("%c ", result[i]);
+
+}
+
+}
+
+
+int main() {
+
+struct Job jobs[] = { {'1', 3, 2}, {'2', 3, 4}, {'3', 3, 3}, {'4', 4, 1}, {'5', 4, 10} };
+
+int n = sizeof(jobs) / sizeof(jobs[0]);
+
+jobSequencing(jobs, n);
+
+return 0;
+
+}
+
+///
+
+4.3 Prim0
+
+s Algorithm for finding the minimal spanning trees
+
+
+#include <iostream>
+
+#include <vector>
+
+#include <climits>
+
+using namespace std;
+
+
+class Graph {
+
+public:
+
+int V; // Number of vertices
+
+vector<vector<int>> graph;
+
+
+Graph(int v) {
+
+V = v;
+
+graph.resize(v, vector<int>(v, 0));
+
+}
+
+
+// Function to add an edge to the graph
+
+void addEdge(int u, int v, int weight) {
+
+graph[u][v] = weight;
+
+graph[v][u] = weight; // Assuming undirected graph
+
+}
+
+
+// Function to find the vertex with the minimum key value
+
+int minKey(vector<int>& key, vector<bool>& mstSet) {
+
+int min = INT_MAX, min_index;
+
+
+for (int v = 0; v < V; ++v) {
+
+if (!mstSet[v] && key[v] < min) {
+
+min = key[v];
+
+min_index = v;
+
+}
+
+}
+
+
+return min_index;
+
+}
+
+
+// Function to print the constructed MST stored in parent[]
+
+void printMST(vector<int>& parent) {
+
+cout << "Edge \tWeight\n";
+
+for (int i = 1; i < V; ++i)
+
+cout << parent[i] << " - " << i << "\t" << graph[i][parent[i]] << endl;
+
+}
+
+
+// Function to construct and print MST for a graph represented using adjacency matrix representation
+
+void primMST() {
+
+vector<int> parent(V); // Array to store constructed MST
+
+vector<int> key(V, INT_MAX); // Key values used to pick minimum weight edge in cut
+
+vector<bool> mstSet(V, false); // To represent set of vertices not yet included in MST
+
+
+// Initialize all keys as INFINITE
+
+// Initialize parent array to -1
+
+key[0] = 0;
+
+parent[0] = -1;
+
+
+// The MST will have V vertices
+
+for (int count = 0; count < V - 1; ++count) {
+
+// Pick the minimum key vertex from the set of vertices not yet included in MST
+
+int u = minKey(key, mstSet);
+
+
+// Add the picked vertex to the MST set
+
+mstSet[u] = true;
+
+
+// Update key value and parent index of the adjacent vertices of the picked vertex
+
+// Consider only those vertices which are not yet included in MST
+
+for (int v = 0; v < V; ++v) {
+
+// graph[u][v] is non-zero only for adjacent vertices of m
+
+// mstSet[v] is false for vertices not yet included in MST
+
+// Update the key only if graph[u][v] is smaller than key[v]
+
+if (graph[u][v] && !mstSet[v] && graph[u][v] < key[v]) {
+
+parent[v] = u;
+
+key[v] = graph[u][v];
+
+}
+
+}
+
+}
+
+
+// Print the constructed MST
+
+printMST(parent);
+
+}
+
+};
+
+
+int main() {
+
+// Create the graph given in the example
+
+Graph g(5);
+
+g.addEdge(0, 1, 2);
+
+g.addEdge(0, 3, 6);
+
+g.addEdge(1, 2, 3);
+
+g.addEdge(1, 3, 8);
+
+g.addEdge(1, 4, 5);
+
+g.addEdge(2, 4, 7);
+
+g.addEdge(3, 4, 9);
+
+
+// Print the MST
+
+g.primMST();
+
+
+return 0;
+
+}
+
+
+
+
+
+
+///4.4 Kruskal's algorithm
+
+
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+using namespace std;
+
+
+class Edge {
+
+public:
+
+int src, dest, weight;
+
+};
+
+
+class Graph {
+
+public:
+
+int V, E;
+
+vector<Edge> edges;
+
+
+Graph(int v, int e) {
+
+V = v;
+
+E = e;
+
+edges.resize(e);
+
+}
+
+
+// Add an edge to the graph
+
+void addEdge(int src, int dest, int weight, int i) {
+
+edges[i].src = src;
+
+edges[i].dest = dest;
+
+edges[i].weight = weight;
+
+}
+
+
+// Find set of an element i (uses path compression technique)
+
+int find(vector<int>& parent, int i) {
+
+if (parent[i] == -1)
+
+return i;
+
+return parent[i] = find(parent, parent[i]);
+
+}
+
+
+// Union of two sets of x and y
+
+void Union(vector<int>& parent, int x, int y) {
+
+int xset = find(parent, x);
+
+int yset = find(parent, y);
+
+parent[xset] = yset;
+
+}
+
+
+// Kruskal's algorithm to find MST
+
+void KruskalMST() {
+
+vector<Edge> result(V); // To store the resultant MST
+
+int e = 0; // An index variable, used for result[]
+
+int i = 0; // An index variable, used for sorted edges
+
+
+// Step 1: Sort all the edges in non-decreasing order of their weight
+
+sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b) {
+
+return a.weight < b.weight;
+
+});
+
+
+vector<int> parent(V, -1); // Array for storing parent of each vertex
+
+
+// Number of edges to be taken is equal to V-1
+
+while (e < V - 1 && i < E) {
+
+Edge next_edge = edges[i++];
+
+int x = find(parent, next_edge.src);
+
+int y = find(parent, next_edge.dest);
+
+
+// If including this edge does't cause cycle, include it in result and increment the index of result for next edge
+
+if (x != y) {
+
+result[e++] = next_edge;
+
+Union(parent, x, y);
+
+}
+
+}
+
+
+// Print the MST
+
+cout << "Following are the edges in the constructed MST\n";
+
+for (i = 0; i < e; ++i)
+
+cout << result[i].src << " -- " << result[i].dest << " == " << result[i].weight << endl;
+
+}
+
+};
+
+
+int main() {
+
+int V = 4; // Number of vertices
+
+int E = 5; // Number of edges
+
+Graph g(V, E);
+
+
+// Add edge: src, dest, weight, index
+
+g.addEdge(0, 1, 10, 0);
+
+g.addEdge(0, 2, 6, 1);
+
+g.addEdge(0, 3, 5, 2);
+
+g.addEdge(1, 3, 15, 3);
+
+g.addEdge(2, 3, 4, 4);
+
+
+// Function call
+
+g.KruskalMST();
+
+
+return 0;
+
+}
+
+
+////4.5 Dijkstra s Algorithm
+
+
+#include <iostream>
+
+#include <vector>
+
+#include <queue>
+
+#include <climits>
+
+using namespace std;
+
+
+#define INF INT_MAX // Infinity
+
+
+class Graph {
+
+public:
+
+int V; // Number of vertices
+
+vector<vector<pair<int, int>>> adj; // Adjacency list: node, weight
+
+
+Graph(int v) {
+
+V = v;
+
+adj.resize(v);
+
+}
+
+
+// Function to add an edge to the graph
+
+void addEdge(int u, int v, int weight) {
+
+adj[u].push_back(make_pair(v, weight));
+
+adj[v].push_back(make_pair(u, weight)); // Assuming undirected graph
+
+}
+
+
+// Function to implement Dijkstra's algorithm for a graph represented using adjacency list
+
+void dijkstra(int src) {
+
+vector<int> dist(V, INF); // Vector to store shortest distance from source to i
+
+vector<bool> visited(V, false); // Vector to track visited nodes
+
+
+dist[src] = 0; // Distance from source to itself is 0
+
+
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq; // Min-heap priority queue
+
+
+pq.push(make_pair(0, src)); // Push the source vertex to priority queue
+
+
+while (!pq.empty()) {
+
+int u = pq.top().second; // Extract the vertex with minimum distance value
+
+pq.pop();
+
+
+visited[u] = true; // Mark the extracted vertex as visited
+
+
+// Update the distance value of adjacent vertices of the extracted vertex
+
+for (auto neighbor : adj[u]) {
+
+int v = neighbor.first;
+
+int weight = neighbor.second;
+
+
+// Update dist[v] if there is a shorter path to v through u
+
+if (!visited[v] && dist[u] != INF && dist[u] + weight < dist[v]) {
+
+dist[v] = dist[u] + weight;
+
+pq.push(make_pair(dist[v], v));
+
+}
+
+}
+
+}
+
+
+// Print the shortest distances from the source
+
+cout << "Vertex \t Distance from Source\n";
+
+for (int i = 0; i < V; ++i)
+
+cout << i << "\t\t" << dist[i] << endl;
+
+}
+
+};
+
+
+int main() {
+
+// Create the graph given in the example
+
+Graph g(9);
+
+g.addEdge(0, 1, 4);
+
+g.addEdge(0, 7, 8);
+
+g.addEdge(1, 2, 8);
+
+g.addEdge(1, 7, 11);
+
+g.addEdge(2, 3, 7);
+
+g.addEdge(2, 8, 2);
+
+g.addEdge(2, 5, 4);
+
+g.addEdge(3, 4, 9);
+
+g.addEdge(3, 5, 14);
+
+g.addEdge(4, 5, 10);
+
+g.addEdge(5, 6, 2);
+
+g.addEdge(6, 7, 1);
+
+g.addEdge(6, 8, 6);
+
+g.addEdge(7, 8, 7);
+
+
+// Print the shortest distances from source vertex 0
+
+g.dijkstra(0);
+
+
+return 0;
+
+}
+
+
+////5.1 Finding the optimal order of multiplying n matrices
+
+#include <iostream>
+
+#include <climits>
+
+using namespace std;
+
+
+int matrixChainOrder(int p[], int n) {
+
+int m[n][n];
+
+int i, j, k, L, q;
+
+
+
+for (i = 1; i < n; i++)
+
+m[i][i] = 0;
+
+
+
+for (L = 2; L < n; L++) {
+
+for (i = 1; i < n - L + 1; i++) {
+
+j = i + L - 1;
+
+m[i][j] = INT_MAX;
+
+for (k = i; k <= j - 1; k++) {
+
+q = m[i][k] + m[k + 1][j] + p[i - 1] * p[k] * p[j];
+
+if (q < m[i][j])
+
+m[i][j] = q;
+
+}
+
+}
+
+}
+
+return m[1][n - 1];
+
+}
+
+
+int main() {
+
+int arr[] = {10, 20, 30, 40, 60};
+
+int n = sizeof(arr) / sizeof(arr[0]);
+
+
+cout << "Minimum number of multiplications is: " << matrixChainOrder(arr, n) << endl;
+
+
+return 0;
+
+}
+
+
+/////
+
+5.2 OBST
+
+#include <iostream>
+
+#include <climits> // Include the <climits> header
+
+using namespace std;
+
+
+// A utility function to get sum of array elements
+
+int sum(int freq[], int i, int j) {
+
+int s = 0;
+
+for (int k = i; k <= j; k++)
+
+s += freq[k];
+
+return s;
+
+}
+
+
+// A dynamic programming based function that calculates minimum cost of
+
+// a Binary Search Tree. The cost can be obtained through the cost matrix
+
+// which is built by the function
+
+int optimalSearchTree(int keys[], int freq[], int n) {
+
+// Create an auxiliary 2D matrix to store results of subproblems
+
+int cost[n][n];
+
+
+// For a single key, cost is equal to frequency of the key
+
+for (int i = 0; i < n; i++)
+
+cost[i][i] = freq[i];
+
+
+// Now we need to consider chains of length 2, 3, ... .
+
+// L is chain length.
+
+for (int L = 2; L <= n; L++) {
+
+// i is row number in cost[][]
+
+for (int i = 0; i <= n - L + 1; i++) {
+
+// Get column number j from row number i and chain length L
+
+int j = i + L - 1;
+
+cost[i][j] = INT_MAX;
+
+
+// Try making all keys in interval keys[i..j] as root
+
+for (int r = i; r <= j; r++) {
+
+// c = cost when keys[r] becomes root of this subtree
+
+int c = ((r > i) ? cost[i][r - 1] : 0) +
+
+((r < j) ? cost[r + 1][j] : 0) +
+
+sum(freq, i, j);
+
+if (c < cost[i][j])
+
+cost[i][j] = c;
+
+}
+
+}
+
+}
+
+return cost[0][n - 1];
+
+}
+
+
+// Driver code
+
+int main() {
+
+int keys[] = {10, 12, 20};
+
+int freq[] = {34, 8, 50};
+
+int n = sizeof(keys) / sizeof(keys[0]);
+
+cout << "Cost of Optimal BST is " << optimalSearchTree(keys, freq, n);
+
+return 0;
+
+}
+
+///
+
+5.3 0/1 Knapsack Problem
+
+#include <iostream>
+
+using namespace std;
+
+int knapSackRec(int W, int wt[], int val[], int index, int** dp)
+
+{
+
+if (index < 0)
+
+return 0;
+
+if (dp[index][W] != -1)
+
+return dp[index][W];
+
+
+if (wt[index] > W) {
+
+
+dp[index][W] = knapSackRec(W, wt, val, index - 1, dp);
+
+return dp[index][W];
+
+}
+
+else {
+
+
+dp[index][W] = max(val[index]
+
++ knapSackRec(W - wt[index], wt, val,
+
+index - 1, dp),
+
+knapSackRec(W, wt, val, index - 1, dp));
+
+
+return dp[index][W];
+
+}
+
+}
+
+
+int knapSack(int W, int wt[], int val[], int n)
+
+{
+
+
+int** dp;
+
+dp = new int*[n];
+
+
+for (int i = 0; i < n; i++)
+
+dp[i] = new int[W + 1];
+
+
+for (int i = 0; i < n; i++)
+
+for (int j = 0; j < W + 1; j++)
+
+dp[i][j] = -1;
+
+return knapSackRec(W, wt, val, n - 1, dp);
+
+}
+
+
+int main()
+
+{
+
+int profit[] = { 60, 100, 120 };
+
+int weight[] = { 10, 20, 30 };
+
+int W = 50;
+
+int n = sizeof(profit) / sizeof(profit[0]);
+
+cout << knapSack(W, weight, profit, n);
+
+return 0;
+
+}
+
+////
+
+5.4 all pair shortest path
+
+#include <iostream>
+
+#include <vector>
+
+#include <limits>
+
+
+using namespace std;
+
+
+#define INF numeric_limits<int>::max()
+
+
+void floydWarshall(vector<vector<int>>& graph) {
+
+int V = graph.size();
+
+
+for (int k = 0; k < V; ++k) {
+
+for (int i = 0; i < V; ++i) {
+
+for (int j = 0; j < V; ++j) {
+
+if (graph[i][k] != INF && graph[k][j] != INF && graph[i][k] + graph[k][j] < graph[i][j]) {
+
+graph[i][j] = graph[i][k] + graph[k][j];
+
+}
+
+}
+
+}
+
+}
+
+}
+
+
+int main() {
+
+vector<vector<int>> graph = {
+
+{0, 5, INF, 10},
+
+{INF, 0, 3, INF},
+
+{INF, INF, 0, 1},
+
+{INF, INF, INF, 0}
+
+};
+
+
+floydWarshall(graph);
+
+
+cout << "Shortest distances between every pair of vertices:\n";
+
+int V = graph.size();
+
+for (int i = 0; i < V; ++i) {
+
+for (int j = 0; j < V; ++j) {
+
+if (graph[i][j] == INF) {
+
+cout << "INF\t";
+
+} else {
+
+cout << graph[i][j] << "\t";
+
+}
+
+}
+
+cout << endl;
+
+}
+
+
+return 0;
+
+}
+
+//
+
+5.5 TSP
+
+
+#include <iostream>
+
+#include <vector>
+
+#include <algorithm>
+
+#include <climits>
+
+using namespace std;
+
+
+const int INF = INT_MAX;
+
+
+// Function to find the minimum cost to traverse all cities starting from the given city
+
+int tsp(vector<vector<int>>& graph, int start, int mask, vector<vector<int>>& dp) {
+
+int n = graph.size();
+
+
+// Base case: If all cities are visited
+
+if (mask == (1 << n) - 1) {
+
+return graph[start][0]; // Return to starting city
+
+}
+
+
+// Check if the solution is already calculated
+
+if (dp[start][mask] != -1) {
+
+return dp[start][mask];
+
+}
+
+
+int minCost = INF;
+
+
+// Try all unvisited cities
+
+for (int city = 0; city < n; ++city) {
+
+if (!(mask & (1 << city))) { // If city is unvisited
+
+int newMask = mask | (1 << city); // Mark city as visited
+
+int cost = graph[start][city] + tsp(graph, city, newMask, dp); // Calculate cost for visiting next city
+
+minCost = min(minCost, cost); // Update minCost
+
+}
+
+}
+
+
+// Memoize the result
+
+dp[start][mask] = minCost;
+
+return minCost;
+
+}
+
+
+// Function to solve the TSP problem
+
+int solveTSP(vector<vector<int>>& graph) {
+
+int n = graph.size();
+
+vector<vector<int>> dp(n, vector<int>(1 << n, -1)); // DP table to memoize solutions
+
+
+// Start from city 0 and mask 0 (no city visited yet)
+
+return tsp(graph, 0, 1, dp);
+
+}
+
+
+int main() {
+
+// Example: Cost matrix representing distances between cities
+
+vector<vector<int>> graph = {
+
+{0, 10, 15, 20},
+
+{10, 0, 35, 25},
+
+{15, 35, 0, 30},
+
+{20, 25, 30, 0}
+
+};
+
+
+// Solve the TSP problem
+
+int minCost = solveTSP(graph);
+
+
+// Print the minimum cost
+
+cout << "Minimum cost to traverse all cities: " << minCost << endl;
+
+
+return 0;
+
+}"
+
+
+
+
+
